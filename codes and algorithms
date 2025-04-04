@@ -1,0 +1,247 @@
+1)Print Hello world and a seconds timer in LCD 16x2 I2C using tinkerCAD
+code:
+// C++ code
+//
+#include <Adafruit_LiquidCrystal.h>
+
+int counter = 0;
+
+Adafruit_LiquidCrystal lcd_1(0);
+
+void setup()
+{
+  lcd_1.begin(16, 2);
+  lcd_1.print("hello world");
+}
+
+void loop()
+{
+  lcd_1.setCursor(8, 1);
+  lcd_1.print(counter);
+  delay(500);
+  counter += 1;
+}
+algorithm:
+[Start]
+   |
+   v
+[Include <Adafruit_LiquidCrystal.h>]
+   |
+   v
+[Initialize counter = 0]
+   |
+   v
+[Create lcd_1 object with address 0]
+   |
+   v
++---------------------+
+|      setup()        |
++---------------------+
+| lcd_1.begin(16, 2)  |
+| lcd_1.print("hello  |
+| world")             |
++---------------------+
+   |
+   v
++---------------------+
+|      loop()         |
++---------------------+
+| lcd_1.setCursor(8,1)|
+| lcd_1.print(counter)|
+| delay(500ms)        |
+| counter += 1        |
++---------------------+
+   |
+   v
+[Repeat loop() infinitely]
+
+2)Use a potentiometer to control the colour of an RGB LED
+code:
+// C++ code
+//
+// Pin connections
+int potPin = A0;         // Potentiometer middle pin to A0
+int redPin = 9;          // Red LED pin
+int greenPin = 10;       // Green LED pin
+int bluePin = 11;        // Blue LED pin
+
+void setup() {
+  // Set RGB pins as OUTPUT
+  pinMode(redPin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
+  pinMode(bluePin, OUTPUT);
+}
+
+void loop() {
+  int potVal = analogRead(potPin); // Read value from potentiometer (0 to 1023)
+
+  if (potVal < 50) {
+    // Very low value → LED OFF
+    analogWrite(redPin, 0);
+    analogWrite(greenPin, 0);
+    analogWrite(bluePin, 0);
+  } 
+  else if (potVal >= 100 && potVal < 500) {
+    // Medium value → RED ON
+    analogWrite(redPin, 255);
+    analogWrite(greenPin, 0);
+    analogWrite(bluePin, 0);
+  } 
+  else if (potVal >= 500 && potVal < 900) {
+    // High value → GREEN ON
+    analogWrite(redPin, 0);
+    analogWrite(greenPin, 255);
+    analogWrite(bluePin, 0);
+  } 
+  else {
+    // Very high value → BLUE ON
+    analogWrite(redPin, 0);
+    analogWrite(greenPin, 0);
+    analogWrite(bluePin, 255);
+  }
+
+  delay(100); // Small delay for stability
+}
+algorithm:
+[Start]
+   |
+   v
+[Declare pins: potPin=A0, redPin=9, greenPin=10, bluePin=11]
+   |
+   v
++--------------------+
+|     setup()        |
++--------------------+
+| Set redPin as OUTPUT   |
+| Set greenPin as OUTPUT |
+| Set bluePin as OUTPUT  |
++--------------------+
+   |
+   v
++--------------------------+
+|        loop()            |
++--------------------------+
+| Read analog value from   |
+| potentiometer (potVal)   |
++--------------------------+
+   |
+   v
+[Is potVal < 50?]
+   | Yes
+   v
+[Turn OFF all LEDs]
+   |
+   v
+[delay(100 ms)]
+   |
+   v
+[Back to loop]
+
+[No]
+   |
+   v
+[Is potVal between 100 and 500?]
+   | Yes
+   v
+[Turn ON RED LED only]
+   |
+   v
+[delay(100 ms)]
+   |
+   v
+[Back to loop]
+
+[No]
+   |
+   v
+[Is potVal between 500 and 900?]
+   | Yes
+   v
+[Turn ON GREEN LED only]
+   |
+   v
+[delay(100 ms)]
+   |
+   v
+[Back to loop]
+
+[No]
+   |
+   v
+[Turn ON BLUE LED only]
+   |
+   v
+[delay(100 ms)]
+   |
+   v
+[Back to loop]
+
+3)Increase and decrease the brightness of an LED using potentiometer and Arduino using tinkerCAD
+code:
+#define RED_PIN 9
+#define GREEN_PIN 10
+#define BLUE_PIN 11
+
+#define POT_RED A0
+#define POT_GREEN A1
+#define POT_BLUE A2
+
+void setup() {
+  pinMode(RED_PIN, OUTPUT);
+  pinMode(GREEN_PIN, OUTPUT);
+  pinMode(BLUE_PIN, OUTPUT);
+}
+
+void loop() {
+  int redVal = analogRead(POT_RED) / 4;  // Map 0-1023 to 0-255
+  int greenVal = analogRead(POT_GREEN) / 4;
+  int blueVal = analogRead(POT_BLUE) / 4;
+
+  analogWrite(RED_PIN,redVal);
+  analogWrite(GREEN_PIN,greenVal);
+  analogWrite(BLUE_PIN,blueVal);
+}
+algorithm:
+[Start]
+   |
+   v
+[Define RGB LED pins: RED=9, GREEN=10, BLUE=11]
+[Define potentiometer pins: POT_RED=A0, POT_GREEN=A1, POT_BLUE=A2]
+   |
+   v
++--------------------------+
+|        setup()           |
++--------------------------+
+| Set RED_PIN as OUTPUT    |
+| Set GREEN_PIN as OUTPUT  |
+| Set BLUE_PIN as OUTPUT   |
++--------------------------+
+   |
+   v
++----------------------------+
+|         loop()             |
++----------------------------+
+| Read analog value from     |
+| POT_RED → redVal (0–1023)  |
+| Map redVal → 0–255         |
++----------------------------+
+   |
+   v
+| Read analog value from     |
+| POT_GREEN → greenVal       |
+| Map greenVal → 0–255       |
++----------------------------+
+   |
+   v
+| Read analog value from     |
+| POT_BLUE → blueVal         |
+| Map blueVal → 0–255        |
++----------------------------+
+   |
+   v
+[Write redVal to RED_PIN using analogWrite]
+[Write greenVal to GREEN_PIN]
+[Write blueVal to BLUE_PIN]
+   |
+   v
+[Repeat loop infinitely]
